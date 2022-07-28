@@ -1,6 +1,9 @@
 #This is the configuration file which uses if statements to check the passed parameters from the client's side
 
 from cryptography.fernet import Fernet
+from dict2xml import dict2xml
+import json
+import pickle
 
 #instance of Fernet class created and key generated here
 key = Fernet.generate_key()
@@ -10,6 +13,21 @@ fernet = Fernet(key)
 
 
 #below is the choice of the pickling format
+rxdic=dict
+for i in range(len(dat)):
+        rxdic[str(i)]=dat[i]
+pic=int(input("""Please select the pickling format:
+                  1-> binary 
+                  2-> JSON
+                  3-> XML"""))
+if pic==1:
+    f1=open("file1.txt","wb")
+    pickle.dump(rxdic,f1)
+    f1.close()
+elif pic==2:
+    b = json.loads(rxdic)
+elif pic==3:
+    xml = dict2xml(rxdic)
 
 #the encryption / decryption functions
 def encrypt_file(text_file):
