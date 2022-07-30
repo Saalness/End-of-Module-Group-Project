@@ -2,65 +2,40 @@
 of the same machine, connects to it, it waits for the client to send data
 
 -default variable - prints on screen or null
-
 printing on screen or in text file choice
-
-
 if text file is encrypted, needs to decrypt it (here or in config?)
-
-
 calls function to print the text file
 
 
 """
+import socket
+import main
+from main import picked, enc, print_type
 
-import socket                   # Import socket module
+# take the port name
+port = 60000
+# create a socket at server side
+# using TCP / IP protocol
+s = socket.socket(socket.AF_INET,
+                  socket.SOCK_STREAM)
 
-port = 60000                    # Reserve a port for your service.
-s = socket.socket()             # Create a socket object
-host = socket.gethostname()     
-s.bind((host, port))            # Bind to the port
-s.listen(5)                     # Now wait for client connection.
+# bind the socket with server
+# and port number
+s.bind(('127.0.0.1', port))
 
-print('Server listening....')
+# allow maximum 1 connection to
+# the socket
+s.listen(1)
 
-print("""-----------------------Menu--------------------
-      --> 1 ----> Send Dictionary
-      --> 2 ----> Send Text file""")
-opt=int(input("Select option :"))
-if  opt==1:
-    txdic=dict
-    siz=int(input("Enter the population of dictionary :"))
-    
-elif opt==2:
-    filename='mytext.txt'
-    f = open(filename,'rb')
-    l = f.read(1024)
-    dat=[]
-    while (l):
-       conn.send(l)
-       print('Sent ',repr(l))
-       l = f.read(1024)
-
-for i in range(siz):
-    txdic[str(i)]=i
+# wait till a client accept
+# connection
 while True:
-    conn, addr = s.accept()     # Establish connection with client.
-    print('Got connection from', addr)
-    data = conn.recv(1024)
-    print('Server received', repr(data))
-    
-    for i in txdic.keys:
-        conn.send(txdic[i])
-        print('Sent ',repr(txdic[i]))
-    print('Done sending')
-    conn.send('Thank you for connecting')
-    conn.close()
+    c, addr = s.accept()
 
-    f.close()
+    # display client address
+    print("CONNECTION FROM:", str(addr))
+
+#!!!!!!!!!needs to recieve text file after connection is made
     
-    print('Done sending')
-    conn.send('Thank you for connecting')
-    conn.close()
-      
-   
+    # disconnect the server
+    c.close()

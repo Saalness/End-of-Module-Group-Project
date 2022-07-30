@@ -27,40 +27,43 @@ encryption config chosen
 (text file is encrypted in config if needed?)
 
 
-
-
-
-
 send the dictionary + text file to the server
 
 
 """
 
 import socket                   # Import socket module
+import main
+from main import picked, enc, print_type
+from config import myconfig
 
-s = socket.socket()             # Create a socket object
-host = socket.gethostname()     # Get local machine name
+s = socket.socket()             # Create a socket object     
 port = 60000                    # Reserve a port for your service.
+format = "utf-8"
+size = 1024
+try:
+    s.connect(('127.0.0.1', port))
+except ConnectionRefusedError:
+    print("There is a problem with the connection.")
+s.send(b"Connection Established")
 
-s.connect((host, port))
-s.send("Hello server!")
+dataDict = {}  # Dictionary Definition
 
-with open('received_file', 'wb') as f:
-    print ('file opened')
-    dat=[]
-    while True:
-        
-        print('receiving data...')
-        data = s.recv(1024)
-        print('data=%s', (data))
-        dat.append(data)
-        if not data:
-            break
-        # write data to a file
-        f.write(data)
+# Populate the dictionary ie Fruits,Vegetables and Nuts as store items
+dataDict = {'Store Items': ['Fruits', 'Vegetables', 'Nuts'], 'Fruits': {'Mango': 6, 'Orange': 3, 'Apple': 50, 'Grapes': 15}, 'Vegetables': {
+        'Sweet potatoes': 100, 'Spinach': 20, 'Carrot': 18}, 'Nuts': {'Almonds': 10, 'Cashews': 5, 'Walnuts': 150, 'Peanuts': 80}}
 
+# Serialize the dictionary
+serialised_dict = main.pickling_choice(picked)
+s.send(serialised_dict.encode())
+    
+# create file
 
-f.close()
-print('Successfully get the file')
+with open('textfile.txt', 'w+') as file:
+    file.write("This text file was created by the client app")
+    s.send(file.read())
+    
+file.close()
+print('Successfully sent the file')
 s.close()
 print('connection closed')
