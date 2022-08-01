@@ -14,12 +14,12 @@ key = Fernet.generate_key()
 fernet = Fernet(key)
 def pickling_choice(picked, dict):
     """depending on the choice of the pickling format, the dictionary is serialised"""
-    dat=[]
-    for i in range(len(dat)):
-        dict[str(i)] = dat[i]
+    #dat=[]
+    #for i in range(len(dat)):
+     #   dict[str(i)] = dat[i]
     if picked == 'pickle':
         file = open("file1.txt","wb")
-        data_serialised = pickle.dump(dict,file)
+        data_serialised = pickle.dump(dict, file)
         file.close()
     elif picked == 'json':
         data_serialised = json.dumps(dict)
@@ -33,7 +33,6 @@ def pickling_choice(picked, dict):
         f1.close()
     print(data_serialised)  
     return data_serialised    
-
 #the encryption / decryption functions
 def encrypt_file(text_file):
     """opens file, reads line to encrypt then writes the encrypted line"""
@@ -42,25 +41,25 @@ def encrypt_file(text_file):
         try:
             file = line.readline()
             encLine = fernet.encrypt(file.encode())
-        except FileNotFoundError:
+        except TypeError:
             "Encryption was not successful"
-        file.write(encLine)
+        line.write(encLine.decode())
     line.close()
-def decrypt_file(text_file):
-    """opens file, reads line to decrypt then writes the decrypted line"""
-    #read line from file
-    line = "first line to decrypt"
-    with open(text_file, 'w+') as line:
-        file = line.readline()
-        decLine = fernet.decrypt(file).decode()
-        line.write(decLine)
-    line.close()
-def print_output(type, data):
+    print("Encrypted line: ", encLine)
+    return encLine
+def decrypt_file(contents):
+    """decrypts the line"""
+    with open('recieved_file.txt', 'w') as line:
+                line.write(contents)
+                file = line.readline()
+                decLine = fernet.decrypt(file).decode()
+    return decLine
+def print_output(data):
     """option to print on screen or in a file"""
     try:
-        if type == "screen":
-            print(data)
-        elif type == "file":
+        if print_type == "screen":
+            print("Output data = ", data)
+        elif print_type == "file":
             with open('recieved_file.txt', 'w') as file:
                 file.write(data)
     except FileNotFoundError:

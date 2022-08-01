@@ -1,13 +1,11 @@
 """This is the server's side which runs forever, it listens to the IP address 
 of the same machine, connects to it, it waits for the client to send data
 
-printing on screen or in text file choice
-if text file is encrypted, needs to decrypt it (here or in config?)
-calls function to print the text file
+if text file is encrypted, it is decrypted it
+calls function to print the text file or dictionary
 """
 import socket
-import main
-from main import enc, print_type #config variables to use in functions
+from main import enc, decrypt_file, print_output #config variables to use in functions
 
 # take the port name
 port = 60000
@@ -35,7 +33,7 @@ while True:
         while True:  #recieves data from client
             print('receiving data...')
             data = c.recv(1024)
-            print('data=%s', (data))
+            print_output(data)
             dat.append(data.decode())
             if not data:
                 break

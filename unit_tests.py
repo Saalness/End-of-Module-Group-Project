@@ -19,6 +19,6 @@ rxdic = {'Store Items': ['Fruits', 'Vegetables', 'Nuts'], 'Fruits': {'Mango': 6,
         'Sweet potatoes': 100, 'Spinach': 20, 'Carrot': 18}, 'Nuts': {'Almonds': 10, 'Cashews': 5, 'Walnuts': 150, 'Peanuts': 80}}
 
 #not completed
-output = ""
-encrypted = ""
-decrypted = ""
+output = "b'{""Store Items"": [""Fruits"", ""Vegetables"", ""Nuts""], ""Fruits"": {""Mango"": 6, ""Orange"": 3, ""Apple"": 50, ""Grapes"": 15}, ""Vegetables"": {""Sweet potatoes"": 100, ""Spinach"": 20, ""Carrot"": 18}, ""Nuts"": {""Almonds"": 10, ""Cashews"": 5, ""Walnuts"": 150, ""Peanuts"": 80}}'"
+encrypted = "b'gAAAAABi6DXNkYM6bb0XD62khDteeLTP52l1sx8FL-198zaRqkWj6LYZEb55N4UJ4FB0nkQb89MvY7nKCmGL8wCtL7FaNhw2lw=='"
+decrypted = "This text file was created by the client app"
