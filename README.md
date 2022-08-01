@@ -1,7 +1,5 @@
 # End-of-Module-Group-Project
 Simple client/server network program that uses dictionaries and encryption.
-# End-of-Module-Group-Project
-Simple client/server network program that uses dictionaries and encryption.
 
 ## Table of Contents
 
