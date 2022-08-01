@@ -20,29 +20,7 @@ s.connect((host, port))
 s.send(("Hello server!").encode())
 
 
-with open('received_file.txt', 'wb') as f:
 
-    print('file opened')
-
-    dat = []
-
-    while True:
-
-        print('receiving data...')
-
-        data = s.recv(1024)
-
-        print('data=%s', (data))
-
-        dat.append(data.decode())
-
-        if not data:
-
-            break
-
-        # write data to a file
-
-        f.write(data)
 
 rxdic = dict()
 print(dat)

@@ -1,5 +1,4 @@
 #This is the configuration file which uses if statements to check the passed parameters from the client's side
-
 from cryptography.fernet import Fernet
 import json
 import pickle
@@ -10,55 +9,52 @@ from dict2xml import dict2xml
 picked = myconfig["pickling"]
 enc = myconfig["encryption"]
 print_type = myconfig["printing"]
-
 #instance of Fernet class created and key generated here
 key = Fernet.generate_key()
-
 fernet = Fernet(key)
-
-
-#below is the choice of the pickling format
-rxdic = dict
-dat=[]
-for i in range(len(dat)):
-        rxdic[str(i)]=dat[i]
-def pickling_choice(picked):
+def pickling_choice(picked, dict):
+    """depending on the choice of the pickling format, the dictionary is serialised"""
+    dat=[]
+    for i in range(len(dat)):
+        dict[str(i)] = dat[i]
     if picked == 'pickle':
         file = open("file1.txt","wb")
-        data_serialised = pickle.dump(rxdic,file)
+        data_serialised = pickle.dump(dict,file)
         file.close()
     elif picked == 'json':
-        data_serialised = json.dumps(rxdic) #!!!!!!!!!!!!! ERROR this is not data serialisable
+        data_serialised = json.dumps(dict)
+        f1 = open("file2.json", "wb")
+        pickle.dump(str(data_serialised).encode(), f1)
+        f1.close()
     elif picked == 'xml':
-        data_serialised = dict2xml(rxdic)
+        data_serialised = dict2xml(dict)
+        f1 = open("file3.xml", "wb")
+        pickle.dump(str(data_serialised).encode(), f1)
+        f1.close()
+    print(data_serialised)  
     return data_serialised    
-
-def enc_check(enc, text_file):
-    if enc == 'true':
-        encrypt_file(text_file)   
-        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!this is not called yet
 
 #the encryption / decryption functions
 def encrypt_file(text_file):
-
-    #string is read from text file (parameter might need to be changed)
+    """opens file, reads line to encrypt then writes the encrypted line"""
+    #string is read from text file
+    with open(text_file, 'w+') as line:
+        try:
+            file = line.readline()
+            encLine = fernet.encrypt(file.encode())
+        except FileNotFoundError:
+            "Encryption was not successful"
+        file.write(encLine)
+    line.close()
+def decrypt_file(text_file):
+    """opens file, reads line to decrypt then writes the decrypted line"""
+    #read line from file
+    line = "first line to decrypt"
     with open(text_file, 'w+') as line:
         file = line.readline()
-    encLine = fernet.encrypt(file.encode())
-    return encLine
-
-    #!!!!encrypted line needs to replace the line in the text file (or a new text file is made?)
-
-def decrypt_file(text_file):
-    #read first line from file
-    line = "first line to decrypt"
-
-    decLine = fernet.decrypt(line).decode()
-    return decLine
-
-    #!!!!encrypted line needs to replace the line in the text file --
-
-#whether to print to screen or text file
+        decLine = fernet.decrypt(file).decode()
+        line.write(decLine)
+    line.close()
 def print_output(type, data):
     """option to print on screen or in a file"""
     try:

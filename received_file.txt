@@ -1,0 +1,1 @@
+Connection Established{"Store Items": ["Fruits", "Vegetables", "Nuts"], "Fruits": {"Mango": 6, "Orange": 3, "Apple": 50, "Grapes": 15}, "Vegetables": {"Sweet potatoes": 100, "Spinach": 20, "Carrot": 18}, "Nuts": {"Almonds": 10, "Cashews": 5, "Walnuts": 150, "Peanuts": 80}}
